@@ -28,12 +28,12 @@ void InsertionSort(int arr[], int n)
 
 int main()
 {
-    int arr[] = { 2,5,3,7,9,11,10 };
+    int arr[] = { 2,5,3,7,9,11,10,1,0 };
     int n = sizeof(arr) / sizeof(arr[0]);
     InsertionSort(arr, n);
 
     for (int i = 0; i < n; i++)
     {
-        std::cout << i << std::endl;
+        std::cout << arr[i] << std::endl;
     }
 }
