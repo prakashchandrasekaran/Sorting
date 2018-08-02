@@ -1,6 +1,38 @@
 #include <iostream>
 using namespace std;
 
+int SearchHelper(int arr[], int size, int k, int start, int end)
+{
+    if (start < 0 || start > end)
+    {
+        return -1;
+    }
+
+    int mid = (start + end) / 2;
+    if (arr[mid] == k)
+    {
+        return mid;
+    }
+    else if (arr[mid] < k)
+    {
+        return SearchHelper(arr, size, k, mid + 1, end);
+    }
+    else
+    {
+        return SearchHelper(arr, size, k, start, mid - 1);
+    }
+}
+
+int SearchInSortedArray(int arr[], int size, int k)
+{
+    if (size <= 0)
+    {
+        return -1;
+    }
+
+    return SearchHelper(arr, size, k, 0, size - 1);
+}
+
 void InsertionSort(int arr[], int n)
 {
     if (arr == nullptr)
@@ -68,6 +100,12 @@ int main()
 
     for (int i = 0; i < n; i++)
     {
-        std::cout << arr[i] << std::endl;
+        std::cout << i << " ==> " << arr[i] << std::endl;
     }
+
+    int loc = SearchInSortedArray(arr, n, 10);
+    std::cout << "Element location is :" << loc << std::endl;
+
+    loc = SearchInSortedArray(arr, n, 100);
+    std::cout << "Element location is :" << loc << std::endl;
 }
