@@ -92,6 +92,59 @@ void SelectionSort(int arr[], int n)
     }
 }
 
+int maxsubarray(int arr[], int size)
+{
+    if (arr == nullptr) return 0;
+    if (size <= 0) return 0;
+
+    int result_maxSum = arr[0];
+    int current_maxSum = arr[0];
+    int current_start = 0;
+    int current_end = 0;
+    int result_start = 0;
+    int result_end = 0;
+
+    for (int i = 1; i<size; i++)
+    {
+        if (arr[i] >= (current_maxSum + arr[i]))
+        {
+            current_maxSum = arr[i];
+            current_start = i;
+            current_end = i;
+        }
+        else
+        {
+            current_maxSum += arr[i];
+            current_end = i;
+        }
+
+        if (current_maxSum > result_maxSum)
+        {
+            result_maxSum = current_maxSum;
+            result_start = current_start;
+            result_end = current_end;
+        }
+        else if (current_maxSum == result_maxSum)
+        {
+            result_maxSum = current_maxSum;
+            if ((current_end - current_start) < (result_end - result_start)) // choosing the shorter sized sub-array
+            {
+                result_start = current_start;
+                result_end = current_end;
+            }
+        }
+
+        result_maxSum = result_maxSum > current_maxSum ? result_maxSum : current_maxSum;
+        std::cout << "current:" << current_maxSum << ",result:" << result_maxSum << std::endl;
+    }
+
+    std::cout << "result_maxSum:" << result_maxSum << std::endl;
+    std::cout << "result_start:" << result_start << std::endl;
+    std::cout << "result_end:" << result_end << std::endl;
+
+    return result_maxSum;
+}
+
 int main()
 {
     int arr[] = { 2,5,3,7,9,11,10,1,0 };
@@ -108,4 +161,8 @@ int main()
 
     loc = SearchInSortedArray(arr, n, 100);
     std::cout << "Element location is :" << loc << std::endl;
+
+    int arr1[] = {1, -1, 2};
+    n = sizeof(arr1) / sizeof(arr1[0]);
+    std::cout << "MaxSubArray ==> " << maxsubarray(arr1, n) << std::endl;
 }
