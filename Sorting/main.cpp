@@ -145,6 +145,73 @@ int maxsubarray(int arr[], int size)
     return result_maxSum;
 }
 
+void MergeArrays(int arr[], int start, int mid, int end)
+{
+    int* left = new int[mid - start + 1];
+    int* right = new int[end - mid];
+
+    int j = 0;
+    for (int i = start; i <= mid; i++)
+    {
+        left[j++] = arr[i];
+    }
+
+    j = 0;
+    for (int i = mid + 1; i <= end; i++)
+    {
+        right[j++] = arr[i];
+    }
+
+    int l = 0, r = 0;
+    j = start;
+    while (l < (mid - start + 1) && r < (end - mid))
+    {
+        if (left[l] < right[r])
+        {
+            arr[j++] = left[l++];
+        }
+        else
+        {
+            arr[j++] = right[r++];
+        }
+    }
+
+    while (l < (mid - start + 1))
+    {
+        arr[j++] = left[l++];
+    }
+
+    while (r < (end - mid))
+    {
+        arr[j++] = right[r++];
+    }
+}
+
+void MergeSortHelper(int arr[], int start, int end)
+{
+    if (start >= end) // just 1 element
+    {
+        return;
+    }
+
+    int mid = (start + end) / 2;
+
+    MergeSortHelper(arr, start, mid);
+    MergeSortHelper(arr, mid+1, end);
+
+    MergeArrays(arr, start, mid, end);
+}
+
+void MergeSort(int arr[], int size)
+{
+    if (arr == nullptr || size <= 0)
+    {
+        return;
+    }
+
+    MergeSortHelper(arr, 0, size - 1);
+}
+
 int main()
 {
     int arr[] = { 2,5,3,7,9,11,10,1,0 };
@@ -165,4 +232,13 @@ int main()
     int arr1[] = {1, -1, 2};
     n = sizeof(arr1) / sizeof(arr1[0]);
     std::cout << "MaxSubArray ==> " << maxsubarray(arr1, n) << std::endl;
+
+    int arr3[] = { 2,5,3,7,9,11,10,1,0, 200, -142, 70, 999, 12};
+    n = sizeof(arr3) / sizeof(arr3[0]);
+    MergeSort(arr3, n);
+
+    for (int i = 0; i < n; i++)
+    {
+        std::cout << i << " ==> " << arr3[i] << std::endl;
+    }
 }
